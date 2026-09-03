@@ -42,6 +42,7 @@ void player_init(Player *plr) {
 		.pos = PLR_SPAWN_POS,
 		.lives = PLR_START_LIVES,
 		.bombs = PLR_START_BOMBS,
+        .iddqd = true,
 		.point_item_value = PLR_START_PIV,
 		.power_stored = 100,
 		.deathtime = -1,
@@ -129,6 +130,7 @@ static int player_track_effective_power_change(Player *plr) {
 }
 
 bool player_set_power(Player *plr, short npow) {
+	npow = PLR_MAX_POWER_STORED;
 	int old_stored = plr->power_stored;
 	int new_stored = clamp(npow, 0, PLR_MAX_POWER_STORED);
 	plr->power_stored = new_stored;
@@ -679,7 +681,7 @@ static bool player_bomb(Player *plr) {
 		// player_cancel_powersurge(plr);
 		// stage_clear_hazards(CLEAR_HAZARDS_ALL);
 
-		plr->bombs--;
+		// plr->bombs--; 
 
 		if(plr->deathtime >= global.frames) {
 			// death bomb - unkill the player!
@@ -902,7 +904,7 @@ void player_realdeath(Player *plr) {
 	plr->bombs = PLR_START_BOMBS;
 	plr->bomb_fragments = 0;
 	plr->voltage *= 0.9;
-	plr->lives--;
+	// plr->lives--;
 	stats_track_life_used(&plr->stats);
 }
 
